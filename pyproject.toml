@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "star-wars-challenge"
+version = "0.1.0"
+description = "API to information about star wars"
+authors = ["Jônatas Luiz de Oliveira <contact@jonatasoliveira.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+ipdb = "^0.13.9"
+prospector = "^1.7.7"
+blue = "^0.8.0"
+isort = "^5.10.1"
+safety = "^1.10.3"
+pytest = "^7.0.1"
+pytest-sugar = "^0.9.4"
+pytest-coverage = "^0.0"
+pytest-watch = "^4.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
