@@ -1,4 +1,4 @@
-.PHONY: install shell format lint test sec
+.PHONY: install shell format lint test sec export
 
 install:
 	@poetry install
@@ -20,3 +20,6 @@ test:
 
 sec:
 	@safety check
+
+export:
+	@poetry export -f requirements.txt --output requirements.txt
