@@ -5,7 +5,7 @@ from loguru import logger
 
 from .adapter_api import search_api
 from .adapter_db import search_planet_db
-from .domain import PlanetList, APINotFoundData, PlanetNotFound
+from .domain import APINotFoundData, PlanetList, PlanetNotFound
 
 app = FastAPI()
 

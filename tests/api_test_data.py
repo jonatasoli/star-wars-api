@@ -23,7 +23,6 @@ hoth_dict = dict(
     films=[
         dict(title='The Empire Strikes Back', release_date='1980-05-17'),
     ],
-
 )
 
 list_planets = dict(result=[yavin_dict, alderaan_dict])

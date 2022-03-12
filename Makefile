@@ -1,4 +1,4 @@
-.PHONY: install shell format lint test sec export
+.PHONY: install shell format lint test sec export configs
 
 install:
 	@poetry install
@@ -23,3 +23,6 @@ sec:
 
 export:
 	@poetry export -f requirements.txt --output requirements.txt
+
+configs:
+	dynaconf -i src.config.settings list

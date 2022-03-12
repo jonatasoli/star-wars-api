@@ -1,0 +1,8 @@
+[default]
+API_URL='https://swapi.dev/api'
+
+[development]
+TESTING=false
+
+[testing]
+TESTING=true

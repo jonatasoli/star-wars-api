@@ -1,19 +1,17 @@
 import httpx
-from .domain import (
-    Film,
-    Planet,
-    PlanetList,
-    PlanetList,
-    APINotFoundData
-)
-api_url = 'https://swapi.dev/api'
+
+from .domain import APINotFoundData, Film, Planet, PlanetList
+from src.config import settings
+
 
 def search_api(search: str):
     try:
         film_list = []
-        planet = httpx.get(
-            f'{api_url}/planets/?search={search}'
-        ).json().get('results')
+        planet = (
+            httpx.get(f'{settings.API_URL}/planets/?search={search}')
+            .json()
+            .get('results')
+        )
         planet = planet[0]
         for film in planet['films']:
             film = httpx.get(film).json()
@@ -26,7 +24,7 @@ def search_api(search: str):
                     climate=planet['climate'],
                     diameter=planet['diameter'],
                     population=planet['population'],
-                    films=film_list
+                    films=film_list,
                 )
             ]
         )
