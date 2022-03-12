@@ -1,6 +1,10 @@
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status, HTTPException
+from loguru import logger
+
+from .adapter_db import search_planet_db
+from .adapter_api import search_api
 
 app = FastAPI()
 
@@ -24,27 +28,35 @@ alderaan_dict = dict(
 
 list_planets = [yavin_dict, alderaan_dict]
 
-@app.get('/planets')
-def get_planets(search: str = None):
-    if search:
+@app.get('/planets', status_code=status.HTTP_200_OK)
+def get_planets(
+        search: str = None
+    ):
+    try:
         return search_planet(search)
-    return list_all_planets()
+    except PlanetNotFound as e:
+        logger.error(f"Error return endpoint {e}")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Error to proccess this request.\n{e}"
+        )
+    except Exception as e:
+        logger.error(
+            f"Error to process function get_planets {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERRROR,
+            detail="This request finish unexpectedly."
+        )
 
 
 def search_planet(search: str):
     planet = search_planet_db(search)
     if planet:
         return planet
-    return search_api_adapter(search)
+    planet = search_api(search)
+    if not planet:
+        raise PlanetNotFound(f'Planet {search} not found')
+    return planet
 
-def search_planet_db(search: str):
-    if search != 'yavin':
-        return None
-    return yavin_dict
-
-
-def search_api_adapter(search: str):
-    return alderaan_dict
-
-def list_all_planets():
-    return list_planets
+class PlanetNotFound(Exception):
+    pass
