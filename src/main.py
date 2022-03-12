@@ -5,7 +5,7 @@ from loguru import logger
 
 from .adapter_api import search_api
 from .adapter_db import search_planet_db
-from .domain import PlanetList
+from .domain import PlanetList, APINotFoundData, PlanetNotFound
 
 app = FastAPI()
 
@@ -23,20 +23,19 @@ def get_planets(search: str = None):
     except Exception as e:
         logger.error(f'Error to process function get_planets {e}')
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERRROR,
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='This request finish unexpectedly.',
         )
 
 
 def search_planet(search: str):
-    planet = search_planet_db(search)
-    if planet:
+    try:
+        planet = search_planet_db(search)
+        if planet:
+            return planet
+        planet = search_api(search)
+        if not planet:
+            raise PlanetNotFound(f'Planet {search} not found')
         return planet
-    planet = search_api(search)
-    if not planet:
-        raise PlanetNotFound(f'Planet {search} not found')
-    return planet
-
-
-class PlanetNotFound(Exception):
-    pass
+    except APINotFoundData as err:
+        raise err

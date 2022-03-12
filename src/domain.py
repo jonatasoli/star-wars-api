@@ -11,10 +11,18 @@ class Film(BaseModel):
 class Planet(BaseModel):
     name: str
     climate: str
-    diameter: int
-    population: int
+    diameter: str
+    population: str
     films: List[Film]
 
 
 class PlanetList(BaseModel):
     result: List[Planet]
+
+
+class PlanetNotFound(Exception):
+    pass
+
+
+class APINotFoundData(Exception):
+    pass
