@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi import FastAPI, HTTPException, status
 from loguru import logger
 
@@ -11,9 +9,9 @@ app = FastAPI()
 
 
 @app.get('/planets', status_code=status.HTTP_200_OK, response_model=PlanetList)
-def get_planets(search: str = None):
+async def get_planets(search: str = None):
     try:
-        return search_planet(search)
+        return await search_planet(search)
     except PlanetNotFound as e:
         logger.error(f'Error return endpoint {e}')
         raise HTTPException(
@@ -28,12 +26,12 @@ def get_planets(search: str = None):
         )
 
 
-def search_planet(search: str):
+async def search_planet(search: str):
     try:
-        planet = search_planet_db(search)
+        planet = await search_planet_db(search)
         if planet:
             return planet
-        planet = search_api(search)
+        planet = await search_api(search)
         if not planet:
             raise PlanetNotFound(f'Planet {search} not found')
         return planet

@@ -21,7 +21,7 @@ alderaan_dict = dict(
 list_planets = [yavin_dict, alderaan_dict]
 
 
-def search_planet_db(search: str = None):
+async def search_planet_db(search: str = None):
     if search is None:
         return PlanetList(result=list_planets)
     if search != 'yavin':
