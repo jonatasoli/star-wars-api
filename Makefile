@@ -16,7 +16,7 @@ lint:
 	@prospector --with-tool pep257 --doc-warning
 
 test:
-	@pytest -v
+	@pytest -s -m 'not api'
 
 sec:
 	@safety check

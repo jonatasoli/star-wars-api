@@ -11,6 +11,7 @@ dynaconf = "^3.1.7"
 fastapi = "^0.75.0"
 httpx = "^0.22.0"
 loguru = "^0.6.0"
+pytest-mock = "^3.7.0"
 
 [tool.poetry.dev-dependencies]
 ipdb = "^0.13.9"

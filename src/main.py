@@ -37,5 +37,7 @@ def search_planet(search: str):
         if not planet:
             raise PlanetNotFound(f'Planet {search} not found')
         return planet
-    except APINotFoundData as err:
-        raise err
+    except APINotFoundData:
+        raise PlanetNotFound('Planet not found')
+    except Exception as e:
+        raise e
