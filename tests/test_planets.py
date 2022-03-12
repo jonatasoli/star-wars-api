@@ -1,6 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
-from .api_test_data import list_planets, yavin_dict
+from .api_test_data import (
+    list_planets,
+    yavin_dict,
+    alderaan_dict
+)
 
 
 def test_status_code_planet_endpoint(client):
@@ -16,3 +20,8 @@ def test_list_planets(client):
 def test_return_planet_yavin_iv(client):
     response = client.get('/planets/?search=yavin')
     assert response.json() == yavin_dict
+
+
+def test_return_planet_alderaan(client):
+    response = client.get('/planets/?search=alderaan')
+    assert response.json() == alderaan_dict

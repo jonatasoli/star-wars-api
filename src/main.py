@@ -32,7 +32,19 @@ def get_planets(search: str = None):
 
 
 def search_planet(search: str):
+    planet = search_planet_db(search)
+    if planet:
+        return planet
+    return search_api_adapter(search)
+
+def search_planet_db(search: str):
+    if search != 'yavin':
+        return None
     return yavin_dict
+
+
+def search_api_adapter(search: str):
+    return alderaan_dict
 
 def list_all_planets():
     return list_planets
