@@ -1,8 +1,10 @@
+import re
 from typing import List
 
-from odmantic import AIOEngine, Model, ObjectId
+from loguru import logger
+from odmantic import Model
 
-from .domain import DBNotFoundData, Film, Planet, PlanetList
+from .domain import DBNotFoundData, Planet, PlanetList
 
 
 class Planet(Model):
@@ -17,7 +19,9 @@ async def search_planet_db(search: str = None, engine=None):
     if search is None:
         planets = await engine.find(Planet)
         return PlanetList(result=planets)
-    planet = await engine.find_one(Planet, Planet.name.match(rf'{search}'))
+    planet = await engine.find_one(
+        Planet, Planet.name.match(re.compile(search, re.IGNORECASE))
+    )
     if not planet:
         raise DBNotFoundData(f'The planet {search} not found in db')
     return PlanetList(result=[planet])
@@ -25,6 +29,8 @@ async def search_planet_db(search: str = None, engine=None):
 
 async def save_planet(planet, engine):
     try:
-        await engine.save(planet)
+        _planet = Planet(**planet.result[0].dict())
+        await engine.save(_planet)
     except Exception as e:
+        logger.error(e)
         raise e

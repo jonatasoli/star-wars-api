@@ -8,13 +8,14 @@ from src.config import settings
 from .domain import PlanetList, PlanetNotFound
 from .services import Search
 
-
 client = AsyncIOMotorClient(settings.MONGOURL)
 engine = AIOEngine(motor_client=client, database=settings.DATABASE)
 planet_router = APIRouter()
 
 
-@planet_router.get('/planets', status_code=status.HTTP_200_OK, response_model=PlanetList)
+@planet_router.get(
+    '/planets', status_code=status.HTTP_200_OK, response_model=PlanetList
+)
 async def get_planets(service: Search = Depends(), search: str = None):
     try:
         return await service.search_planet(search, engine)
