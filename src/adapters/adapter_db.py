@@ -4,7 +4,7 @@ from typing import List
 from loguru import logger
 from odmantic import Model
 
-from .domain import DBNotFoundData, Planet, PlanetList
+from src.domain import DBNotFoundData, Planet, PlanetList
 
 
 class Planet(Model):

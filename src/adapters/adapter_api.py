@@ -2,7 +2,7 @@ import httpx
 
 from src.config import settings
 
-from .domain import APINotFoundData, Film, Planet, PlanetList
+from src.domain import APINotFoundData, Film, Planet, PlanetList
 
 
 async def search_api(search: str):

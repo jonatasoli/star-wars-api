@@ -1,6 +1,6 @@
 import pytest
 
-from src.adapter_api import search_api
+from src.adapters.adapter_api import search_api
 from src.domain import APINotFoundData
 
 from .api_test_data import list_hoth

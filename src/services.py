@@ -2,7 +2,7 @@ import contextlib
 
 from loguru import logger
 
-from src import adapter_api, adapter_db
+from src.adapters import adapter_api, adapter_db
 
 from .domain import APINotFoundData, DBNotFoundData, PlanetNotFound
 
