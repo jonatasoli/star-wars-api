@@ -1,7 +1,6 @@
 import httpx
 
 from src.config import settings
-
 from src.domain import APINotFoundData, Film, Planet, PlanetList
 
 

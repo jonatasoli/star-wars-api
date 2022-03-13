@@ -8,7 +8,9 @@ from .api_test_data import list_alderaan, list_planets, list_yavin
 
 @pytest.mark.asyncio
 async def test_list_planets(mocker):
-    mocker.patch('src.adapters.adapter_db.search_planet_db', return_value=list_planets)
+    mocker.patch(
+        'src.adapters.adapter_db.search_planet_db', return_value=list_planets
+    )
     mocker.patch('src.adapters.adapter_db.save_planet')
     service = Search()
     assert (
@@ -19,7 +21,8 @@ async def test_list_planets(mocker):
 @pytest.mark.asyncio
 async def test_empty_search(mocker):
     mocker.patch(
-        'src.adapters.adapter_db.search_planet_db', return_value=dict(result=[])
+        'src.adapters.adapter_db.search_planet_db',
+        return_value=dict(result=[]),
     )
     mocker.patch('src.adapters.adapter_db.save_planet')
     service = Search()
@@ -30,8 +33,12 @@ async def test_empty_search(mocker):
 
 @pytest.mark.asyncio
 async def test_invalid_planet(mocker):
-    mocker.patch('src.adapters.adapter_db.search_planet_db', side_effect=DBNotFoundData)
-    mocker.patch('src.adapters.adapter_api.search_api', side_effect=APINotFoundData)
+    mocker.patch(
+        'src.adapters.adapter_db.search_planet_db', side_effect=DBNotFoundData
+    )
+    mocker.patch(
+        'src.adapters.adapter_api.search_api', side_effect=APINotFoundData
+    )
     mocker.patch('src.adapters.adapter_db.save_planet')
     service = Search()
     with pytest.raises(PlanetNotFound):
@@ -40,7 +47,9 @@ async def test_invalid_planet(mocker):
 
 @pytest.mark.asyncio
 async def test_return_planet_yavin_iv_in_db_function(mocker):
-    mocker.patch('src.adapters.adapter_db.search_planet_db', return_value=list_yavin)
+    mocker.patch(
+        'src.adapters.adapter_db.search_planet_db', return_value=list_yavin
+    )
     mocker.patch('src.adapters.adapter_db.save_planet')
     service = Search()
     assert (
@@ -50,8 +59,12 @@ async def test_return_planet_yavin_iv_in_db_function(mocker):
 
 @pytest.mark.asyncio
 async def test_return_planet_alderaan_in_api_function(mocker):
-    mocker.patch('src.adapters.adapter_db.search_planet_db', side_effect=DBNotFoundData)
-    mocker.patch('src.adapters.adapter_api.search_api', return_value=list_alderaan)
+    mocker.patch(
+        'src.adapters.adapter_db.search_planet_db', side_effect=DBNotFoundData
+    )
+    mocker.patch(
+        'src.adapters.adapter_api.search_api', return_value=list_alderaan
+    )
     mocker.patch('src.adapters.adapter_db.save_planet')
     service = Search()
     assert (
