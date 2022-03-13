@@ -1,8 +1,6 @@
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.config import settings
-
 from .resources import planet_router
 
 

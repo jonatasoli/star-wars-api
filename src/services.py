@@ -20,8 +20,8 @@ class Search:
                 raise PlanetNotFound(f'Planet {search} not found')
             await adapter_db.save_planet(planet, engine)
             return planet
-        except APINotFoundData:
-            raise PlanetNotFound('Planet not found')
+        except APINotFoundData as err:
+            raise PlanetNotFound('Planet not found') from err
         except Exception as e:
             logger.error(e)
             raise e

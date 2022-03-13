@@ -13,7 +13,7 @@ format:
 lint:
 	@blue . --check
 	@isort . --check
-	@prospector --with-tool pep257 --doc-warning
+	@prospector --no-autodetect
 
 test:
 	@pytest -s -m 'not api'

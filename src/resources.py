@@ -24,10 +24,10 @@ async def get_planets(service: Search = Depends(), search: str = None):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='Error to proccess this request.\n{e}',
-        )
+        ) from e
     except Exception as e:
         logger.error(f'Error to process function get_planets {e}')
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail='This request finish unexpectedly.',
-        )
+        ) from e
