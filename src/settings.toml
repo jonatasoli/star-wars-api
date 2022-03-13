@@ -2,7 +2,8 @@
 API_URL='https://swapi.dev/api'
 
 [development]
-TESTING=false
+MONGOURL="mongodb://root:pass123@172.18.0.3:27017/"
+DATABASE="starwars"
 
 [testing]
 TESTING=true

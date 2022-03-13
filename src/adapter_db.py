@@ -1,29 +1,29 @@
-from .domain import Film, Planet, PlanetList
+from .domain import Film, Planet, PlanetList, DBNotFoundData
+from typing import List
 
-yavin_dict = dict(
-    name='Yavin IV',
-    climate='temperate, tropical',
-    diameter='10200',
-    population='1000',
-    films=[Film(title='A New Hope', release_date='1977-05-25')],
-)
-alderaan_dict = dict(
-    name='Alderaan',
-    climate='temperate',
-    diameter='12500',
-    population='2000000000',
-    films=[
-        Film(title='A New Hope', release_date='1977-05-25'),
-        Film(title='Revenge of the Sith', release_date='2005-05-19'),
-    ],
-)
-
-list_planets = [yavin_dict, alderaan_dict]
+from odmantic import AIOEngine, Model, ObjectId
 
 
-async def search_planet_db(search: str = None):
+class Planet(Model):
+    name: str
+    climate: str
+    diameter: str
+    population: str
+    films: List
+
+
+async def search_planet_db(search: str = None, engine= None):
     if search is None:
-        return PlanetList(result=list_planets)
-    if search != 'yavin':
-        return None
-    return PlanetList(result=[Planet(**yavin_dict)])
+        planets = await engine.find(Planet) 
+        return PlanetList(result=planets)
+    planet = await engine.find_one(Planet, Planet.name.match(rf"{search}"))
+    if not planet:
+        raise DBNotFoundData(f'The planet {search} not found in db')
+    return PlanetList(result=[planet])
+
+
+async def save_planet(planet, engine):
+    try:
+        await engine.save(planet)
+    except Exception as e:
+        raise e

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -17,7 +17,7 @@ class Planet(BaseModel):
 
 
 class PlanetList(BaseModel):
-    result: List[Planet]
+    result: Optional[List[Planet]]
 
 
 class PlanetNotFound(Exception):
@@ -25,4 +25,7 @@ class PlanetNotFound(Exception):
 
 
 class APINotFoundData(Exception):
+    pass
+
+class DBNotFoundData(Exception):
     pass
