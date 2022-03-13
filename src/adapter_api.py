@@ -1,7 +1,8 @@
 import httpx
 
-from .domain import APINotFoundData, Film, Planet, PlanetList
 from src.config import settings
+
+from .domain import APINotFoundData, Film, Planet, PlanetList
 
 
 async def search_api(search: str):
@@ -10,7 +11,8 @@ async def search_api(search: str):
         planet = None
         async with httpx.AsyncClient() as client:
             planet = await client.get(
-                f'{settings.API_URL}/planets/?search={search}')
+                f'{settings.API_URL}/planets/?search={search}'
+            )
             planet = planet.json().get('results')[0]
             for film in planet['films']:
                 film = await client.get(film)

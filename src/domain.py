@@ -27,5 +27,6 @@ class PlanetNotFound(Exception):
 class APINotFoundData(Exception):
     pass
 
+
 class DBNotFoundData(Exception):
     pass

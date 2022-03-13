@@ -27,6 +27,6 @@ export:
 configs:
 	dynaconf -i src.config.settings list
 
-shell:
-	@poetry run src.uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+run:
+	@poetry run uvicorn src.main:create_app --factory --host 0.0.0.0 --port 8000 --reload
 

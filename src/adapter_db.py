@@ -1,7 +1,8 @@
-from .domain import Film, Planet, PlanetList, DBNotFoundData
 from typing import List
 
 from odmantic import AIOEngine, Model, ObjectId
+
+from .domain import DBNotFoundData, Film, Planet, PlanetList
 
 
 class Planet(Model):
@@ -12,11 +13,11 @@ class Planet(Model):
     films: List
 
 
-async def search_planet_db(search: str = None, engine= None):
+async def search_planet_db(search: str = None, engine=None):
     if search is None:
-        planets = await engine.find(Planet) 
+        planets = await engine.find(Planet)
         return PlanetList(result=planets)
-    planet = await engine.find_one(Planet, Planet.name.match(rf"{search}"))
+    planet = await engine.find_one(Planet, Planet.name.match(rf'{search}'))
     if not planet:
         raise DBNotFoundData(f'The planet {search} not found in db')
     return PlanetList(result=[planet])
