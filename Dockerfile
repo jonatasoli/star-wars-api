@@ -15,11 +15,14 @@ RUN pip install pip --upgrade
 RUN pip install -r requirements.txt
 
 
-COPY ./app /app
-WORKDIR /app/
+COPY ./src /src
+WORKDIR /
 
-# ENV PYTHONPATH=/app
+RUN useradd -ms /bin/bash user
+
+RUN chown -R user:user /src && \
+    chmod -R 775 /src/
+
+USER user
 
 EXPOSE 8000
-
-CMD gunicorn main:create_app --bind :$PORT -k uvicorn.workers.UvicornWorker --timeout 90 --access-logfile=- --log-file=- --log-level debug
